@@ -91,11 +91,11 @@ rkdeveloptool rd
 
 ## 🤖 Acknowledgements & AI Heavy Lifting
 
-Tout le travail d'ingénierie inverse, de désassemblage statique ELF, de patchage assembleur ARM64, de reconstruction de la signature SHA-1 du bootloader Rockchip, de conception du binaire C freestanding et de débogage matériel en direct a été réalisé avec un usage intensif d'IA pour le *heavy lifting* :
+The entirety of the reverse engineering, static ELF disassembly, ARM64 assembly patching, Rockchip U-Boot SHA-1 signature reconstruction, freestanding C implementation, and live hardware debugging was assisted and automated via intensive AI heavy lifting by:
 
-* **Modèle d'IA** : **Gemini 3.8 Flash** (Thinking: High)
-* **Environnement** : **Google Antigravity for Linux** sur **CachyOS**
-* **Outils & MCP** : **MCP REA** (Reverse Engineering Anything) avec l'ensemble des dépendances d'analyse binaire et de désassemblage natif aarch64.
+* **AI Model**: **Gemini 3.8 Flash** (Thinking: High)
+* **Environment**: **Google Antigravity for Linux** on **CachyOS**
+* **Tooling & MCP**: **MCP REA** (*Reverse Engineering Anything*) with native aarch64 binary analysis, disassembly, and debugging toolchains.
 
 ---
 
