@@ -159,6 +159,29 @@ Congratulations! Your Likebook Alita is now permanently rooted with full UID 0 e
 
 ---
 
+## Step 7: Post-Root Performance Optimization & Debloat (Recommended)
+
+To double battery life, eliminate Chinese tracking, and optimize the CPU governor specifically for E-Ink:
+
+```bash
+# 1. Run the safe debloat script (disables 8 telemetry and stress-test packages)
+bash scripts/debloat.sh
+
+# 2. Push persistent optimization scripts and DNS sinkhole
+adb push scripts/hosts /data/boyue/hosts
+adb push scripts/boot_optimize.sh /data/boyue/boot_optimize.sh
+adb push scripts/boyuenetwork.conf /data/boyue/boyuenetwork.conf
+adb shell "chmod 0755 /data/boyue/boot_optimize.sh /data/boyue/boyuenetwork.conf"
+adb shell "setprop ctl.start boyuenetwork"
+```
+
+This guarantees:
+* **Interactive CPU Governor**: Drops to **216 MHz** idle while reading static text, with an **80 ms touch boost** for 0-lag stylus writing.
+* **Wi-Fi Power Saving**: Reduces background scans from every 15 seconds to **every 5 minutes**.
+* **Zero Telemetry**: Blocks `api.boyue.com` and Baidu location endpoints locally via `127.0.0.1`.
+
+---
+
 ## Emergency Rollback
 
 If you ever wish to revert to 100% stock factory boot:
