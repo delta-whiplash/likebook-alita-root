@@ -1,0 +1,21 @@
+# Boyue Likebook Alita (K103) - Android 8.1 SELinux Bypass Patch
+# Architecture: ARM64 (aarch64)
+# Target file: /init (in boot.img ramdisk)
+
+--- File Offset 0x0000d130 (Virtual Address 0x0040d130) ---
+
+ORIGINAL (AOSP init enforces SELinux):
+  File offset: 0xd130
+  Hex bytes:   71 04 00 35
+  Disassembly: cbnz w0, 0x40dcdc   ; PLOG(FATAL) << "Failed to set enforce mode"
+
+PATCHED (Direct branch to bypass enforcing call):
+  File offset: 0xd130
+  Hex bytes:   06 00 00 14
+  Disassembly: b    0x40d148       ; Skip selinux_set_enforce(1) completely
+
+Explanation:
+  By default in the Likebook kernel cmdline, androidboot.selinux=permissive is passed.
+  During stage 2 of init, Android executes selinux_set_enforce(1) to lock SELinux into Enforcing.
+  Bypassing this call leaves the kernel in its natural Permissive state, permitting domain transitions,
+  unprivileged su execution, and root filesystem read/write.
