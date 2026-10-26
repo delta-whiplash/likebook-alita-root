@@ -27,7 +27,8 @@ A complete, battle-tested research repository and guide for achieving **permanen
 ├── QUICK_GUIDE.md                 # Practical, step-by-step rooting instructions
 ├── LICENSE                        # MIT License
 ├── docs/
-│   └── TECHNICAL_DEEP_DIVE.md     # In-depth architectural analysis & disassembly breakdown
+│   ├── TECHNICAL_DEEP_DIVE.md     # In-depth architectural analysis & disassembly breakdown
+│   └── FAILED_ATTEMPTS_AND_LESSONS_LEARNED.md # Complete matrix of tested methods, crashes & technical reasons
 ├── patches/
 │   └── init_selinux.patch         # ARM64 disassembly diff of the init SELinux bypass
 └── tools/
@@ -80,9 +81,11 @@ rkdeveloptool rd
 
 ---
 
-## 📖 In-Depth Technical Details
+## 📖 Documentation & Research Notes
 
-For complete reverse-engineering notes, Ghidra/objdump disassemblies, reasons why standard Magisk and naive SELinux patching fail on this device, see **[docs/TECHNICAL_DEEP_DIVE.md](docs/TECHNICAL_DEEP_DIVE.md)**.
+* **[QUICK_GUIDE.md](QUICK_GUIDE.md)**: Practical, step-by-step instructions to root your Likebook Alita without wiping data.
+* **[docs/FAILED_ATTEMPTS_AND_LESSONS_LEARNED.md](docs/FAILED_ATTEMPTS_AND_LESSONS_LEARNED.md)**: Full matrix of failed attempts ("If you do X -> Y happens -> Why"), covering standard Magisk, OEM unlock wipe traps, SELinux kernel panics, and filesystem restrictions.
+* **[docs/TECHNICAL_DEEP_DIVE.md](docs/TECHNICAL_DEEP_DIVE.md)**: Complete reverse-engineering breakdown, Ghidra/objdump disassemblies of `/init` and `adbd`, and the proprietary Rockchip SHA-1 checksum algorithm.
 
 ---
 
