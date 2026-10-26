@@ -168,3 +168,24 @@ VintfObject.verify() returns 1: Runtime info and framework compatibility matrix 
 * **Explanation:** `/system/compatibility_matrix.xml` requires kernel options to be exposed in `/proc/config.gz`. Boyue's kernel 4.4 was compiled without `CONFIG_IKCONFIG_PROC=y`. Because the file is missing, the validator flags the kernel as incompatible and triggers the warning dialog.
 * **Impact:** Purely visual. The reading application, handwritten notes, and system run with 100% stability.
 * **Solution:** Keep `ro.boot.verifiedbootstate` on `green`, or auto-dismiss the dialog via a background watcher on boot (`input tap 1137 1045`).
+
+---
+
+### 10. Flashing via `dd` in Userspace vs Low-Level Sector Offsets
+
+* **What we tried:** Attempted to write the modified `boot.img` directly from within Android using `dd if=... of=/dev/block/platform/ff0f0000.dwmmc/by-name/boot`.
+* **What happened:** Device dropped into Recovery mode upon reboot.
+* **Why it failed:** 
+  1. The Android userspace symlink `/dev/block/platform/.../by-name/boot` pointed to `/dev/block/mmcblk1p7`, which began at sector **147456** in the GPT table.
+  2. However, the Rockchip Miniloader and U-Boot parameter table maps `boot` starting at sector **139264** (`0x22000`).
+  3. Writing to 147456 shifted the written image by 8,192 sectors (4 MB) into the adjacent partition space, corrupting the boundary and triggering recovery fallback.
+* **Lesson Learned:** Always flash boot images from the Rockchip Miniloader (`rkdeveloptool wl 139264`) rather than raw block device nodes in userspace.
+
+---
+
+### 11. PMIC RK818 Protective Standby after `rkdeveloptool rd`
+
+* **What we tried:** Sent a low-level reboot command (`rkdeveloptool rd`) to reset the device after flashing while the USB-C cable was plugged into the host PC.
+* **What happened:** The device disconnected from USB and appeared completely unresponsive; short presses on the Power button had no visible effect.
+* **Why it failed:** The RK3368 SoC's dedicated power management chip (Rockchip RK818 PMIC) enters a hardware protective low-power standby mode when an automated reset is executed while 5V VBUS voltage is continuously supplied over USB.
+* **Solution:** Disconnect the USB cable, hold the physical Power button down continuously for 25 to 30 seconds to drain residual charge from the PMIC rail capacitors, then reconnect and power on normally (or use the hardware *Upgrade Key* in the pinhole next to the Power button).

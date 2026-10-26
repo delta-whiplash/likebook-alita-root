@@ -1,0 +1,12 @@
+127.0.0.1 localhost
+::1 ip6-localhost
+
+# Sinkhole Boyue Telemetry & Baidu Location Tracking
+127.0.0.1 api.boyue.com
+127.0.0.1 loc.map.baidu.com
+127.0.0.1 itsdata.map.baidu.com
+127.0.0.1 api.lemonread.com
+127.0.0.1 rights.e.jd.com
+127.0.0.1 pipeline.qiniu.com
+127.0.0.1 uc.qbox.me
+127.0.0.1 uplog.qbox.me

@@ -31,6 +31,11 @@ A complete, battle-tested research repository and guide for achieving **permanen
 │   └── FAILED_ATTEMPTS_AND_LESSONS_LEARNED.md # Complete matrix of tested methods, crashes & technical reasons
 ├── patches/
 │   └── init_selinux.patch         # ARM64 disassembly diff of the init SELinux bypass
+├── scripts/
+│   ├── boot_optimize.sh           # Persistent CPU interactive governor & power tuning
+│   ├── boyuenetwork.conf          # Native vendor init service hook
+│   ├── debloat.sh                 # Safe package manager debloat script
+│   └── hosts                      # DNS sinkhole blocklist for Boyue and Baidu telemetry
 └── tools/
     ├── rk_boot_tool.py            # Rockchip 11-field boot header SHA-1 signer and validator
     ├── patch_init.py              # Automated binary patcher for the Likebook /init binary
@@ -63,6 +68,28 @@ python3 tools/rk_boot_tool.py patch new_boot.img boot_rooted_signed.img
 rkdeveloptool wl 139264 boot_rooted_signed.img
 rkdeveloptool rd
 ```
+
+---
+
+## 🔋 Post-Root Battery Optimization & Privacy Debloat
+
+Achieving permanent root allows deep system and kernel tuning tailored specifically for an **E-Ink reading environment**, doubling battery life and eliminating Chinese telemetry while keeping the native note-taking engine 100% responsive:
+
+### 1. Interactive CPU Governor Calibration
+E-Ink displays only require processor power during page turns, UI interactions, and stylus strokes. Between turns, CPU cores should immediately drop to their lowest power state:
+* **Idle Frequency**: Dropped to **216 MHz** on LITTLE cluster (CPU 0–3) with ~96% idle time while reading static text.
+* **Hispeed Frequency**: Capped at **600 MHz** (down from 1.008 GHz default) to avoid unnecessary 100% thermal and battery spikes.
+* **Touch & Stylus Boost**: Configured `boostpulse_duration = 80000` (80 ms) to provide instant 0-lag responsiveness for writing and page flipping.
+* **Target Loads**: Rebalanced from aggressive thresholds to progressive steps (`80 600000:85 816000:90 1008000:95`).
+
+### 2. Wi-Fi Power Saving
+* Default Boyue supplicant scanned surrounding Wi-Fi networks every **15 seconds** in background.
+* Relaxed `wifi_supplicant_scan_interval_ms` to **300,000 ms (5 minutes)**, dramatically decreasing radio wakeups and standby battery drain.
+
+### 3. Telemetry Debloating & DNS Sinkhole
+* **Safe Package Disabling**: 8 telemetry and factory-test applications disabled via Android's native `pm disable-user --user 0` (`com.boyue.systemupdate`, `com.boyue.appstore`, `com.boyue.accountmanagement`, `com.boyue.wifitransfer`, `com.boyue.filemanager`, `com.boyue.floatingbutton`, `com.cghs.stresstest`, `com.DeviceTest`). No risk of bootloop or `/system` partition corruption.
+* **Memory Bind-Mount DNS Sinkhole**: `/system/etc/hosts` is bind-mounted on boot to redirect tracking domains (`api.boyue.com`, `loc.map.baidu.com`, `itsdata.map.baidu.com`, `api.lemonread.com`, `pipeline.qiniu.com`) to `127.0.0.1`.
+* **Zero Reading Impact**: `com.boyue.app.byreader` and `boyuedrawserver` (Wacom EPDC stylus server) remain 100% operational with over 2.6 GB free RAM.
 
 ---
 
