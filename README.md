@@ -46,6 +46,16 @@ A complete, battle-tested research repository and guide for achieving **permanen
 
 ---
 
+## 📦 Official Firmware & Partition Downloads
+
+Boyue's cloud and OTA servers were permanently decommissioned in 2021. Untouched factory archives and pre-built production images are permanently preserved under **[GitHub Releases (v1.0.0)](https://github.com/delta-whiplash/likebook-alita-root/releases/tag/v1.0.0)**:
+
+* **`K103-V3.1.1-update.zip`** (797 MB): Official Boyue factory OTA recovery package (`BYRead-V3.1.1-2021081712`). Restores system, vendor, oem, and boot via stock recovery.
+* **`likebook_alita_k103_stock_partitions.tar.gz`** (37 MB): Bit-for-bit factory partition dumps (`uboot.img`, `trust.img`, `misc.img`, `resource.img`, `kernel.img`, `boot.img`, `recovery.img`, and `parameter.bin`).
+* **`boot_rooted_signed.img`** (32 MB): Ready-to-flash production rooted boot image for immediate 1-click rooting.
+
+---
+
 ## 🚀 Quick Start
 
 If you are looking for a step-by-step guide to root your device, refer directly to **[QUICK_GUIDE.md](QUICK_GUIDE.md)**.
